@@ -1,0 +1,31 @@
+<template>
+  <v-container>
+    <v-layout text-center wrap>
+      <v-btn>
+        <span @click="linkAccount(services.SPOTIFY)">Add spotify</span>
+      </v-btn>
+    </v-layout>
+  </v-container>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import OAuthService from "../services/OAuthService";
+
+@Component
+export default class MusicServices extends Vue {
+  name: String = "MusicServices";
+  posts: Array<object> = [];
+  error: String = "";
+  services: Object = {
+    SPOTIFY: "spotify"
+  }
+  linkAccount(service){
+    //This gives a CORS error
+    OAuthService.linkAccount({service: service}).then(function(res) {
+      console.log(res);
+    });
+  }
+}
+</script>
+

@@ -1,0 +1,27 @@
+{
+  "name": "express-vue",
+  "version": "1.0.0",
+  "description": "Full stack vue express app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js"
+  },
+  "author": "Anthony",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "consolidate": "^0.15.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.3.3",
+    "passport": "^0.4.0",
+    "passport-oauth": "^1.0.0",
+    "passport-spotify": "^1.1.0",
+    "request": "^2.88.0",
+    "swig": "^1.4.2"
+  }
+}
