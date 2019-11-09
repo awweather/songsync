@@ -71,6 +71,7 @@ export default class Login extends Vue {
     AuthService.login(info).then(function(res) {
       self.$store.dispatch('setToken', res.data.token);
       self.$store.dispatch('setUser', res.data.user);
+      self.$router.push({name: 'Dashboard'});
     }).catch(function(err){
       console.log(err);
     });
