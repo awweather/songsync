@@ -56,6 +56,8 @@ app.use(function (req, res, next) {
 process.env.SPOTIFY_CLIENT_ID = "4197a6642f7443508c00a17b38a62131";
 process.env.SPOTIFY_CLIENT_SECRET = "829da8a3b44f49cf8f3e511a8debd996";
 process.env.DB_NAME = "vue-express";
+process.env.GOOGLE_CLIENT_ID = "874889913027-3eb7g79km0fekdqlo0tejqmqloluhfmm.apps.googleusercontent.com";
+process.env.GOOGLE_CLIENT_SECRET = "prkPq7Xs0jaAriLMUxS8dZot";
 
 require('./routes.js')(app);
 

@@ -85,7 +85,7 @@ app.use(passport.session());
     res.redirect('/login');
   }
 var redirect_uri = 'http://localhost:8888/callback';
-
+var google_redirect_uri = 'http://localhost:8888/auth/google/callback'
 module.exports = {
     spotify: {
         login(req, res) {
@@ -132,5 +132,41 @@ module.exports = {
           //     res.redirect('/');
           //   }
         }
+    },
+    google: {
+      login(req, res) {
+        console.log("google!");
+        res.redirect('https://accounts.google.com/o/oauth2/auth?' +
+        querystring.stringify({
+          scope: "https://www.googleapis.com/auth/androidpublisher",
+          access_type: "offline",
+          response_type: 'code',
+          client_id: process.env.GOOGLE_CLIENT_ID,
+          redirect_uri: google_redirect_uri
+        }))
+      },
+      callback(req, res){
+        console.log("google callback!");
+        let code = req.query.code || null
+        let authOptions = {
+          url: 'https://accounts.google.com/o/oauth2/token',
+          form: {
+            code: code,
+            redirect_uri: google_redirect_uri,
+            grant_type: 'authorization_code'
+          },
+          headers: {
+            'Authorization': 'Basic ' + (new Buffer(
+              process.env.GOOGLE_CLIENT_ID + ':' + process.env.GOOGLE_CLIENT_SECRET
+            ).toString('base64'))
+          },
+          json: true
+        }
+        request.post(authOptions, function(error, response, body) {
+          var access_token = body.access_token
+          let uri = process.env.FRONTEND_URI || 'http://localhost:8080/#/services'
+          res.redirect(uri + '?access_token=' + access_token)
+        })
+      }
     }
 }

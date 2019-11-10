@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>Sound</span>
+        <span>Song</span>
         <span class="font-weight-light">Sync</span>
       </v-toolbar-title>
        <v-btn
