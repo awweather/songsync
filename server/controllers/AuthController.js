@@ -2,6 +2,7 @@ const jwt  =  require('jsonwebtoken');
 const bcrypt  =  require('bcrypt'); 
 const config = require('../config/config.js')
 const dataProvider = require('../providers/DataProvider');
+const User = require('../models/User.js');
 
 async function findUserByEmail(email) {
     const users = await dataProvider.getUsers();
@@ -17,12 +18,13 @@ function jwtSignUser(user) {
 async function createUser(name, email, password) {
     const users = await dataProvider.getUsers();
     
-    await users.insertOne({
-        name: name,
+    await users.insertOne(new User({
+        username: name,
         email: email,
         password: password,
-        createdAt: new Date()
-    });
+        createdAt: new Date(),
+        linkedAccounts: new Map()
+    }));
 }
 
 async function emailAlreadyExists(email) {
@@ -62,7 +64,7 @@ module.exports = {
         }
     },
     async register (req, res) {
-        const name = req.body.name;
+        const name = req.body.username;
         const email = req.body.email;
     
         try {

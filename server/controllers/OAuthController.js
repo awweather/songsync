@@ -4,6 +4,10 @@ session = require('express-session'),
 passport = require('passport'),
 swig = require('swig'),
 SpotifyStrategy = require('../routes/passport/spotify/index').Strategy;
+let request = require('request')
+
+let querystring = require('querystring')
+
 var app = express();
 var appKey = process.env.SPOTIFY_CLIENT_ID;
 var appSecret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -32,10 +36,11 @@ passport.use(
     {
       clientID: appKey,
       clientSecret: appSecret,
-      callbackURL: 'http://localhost:8888/callback'
+      callbackURL: 'http://localhost:8888/auth/callback'
     },
     function(accessToken, refreshToken, expires_in, profile, done) {
       // asynchronous verification, for effect...
+      console.log("test");
       process.nextTick(function() {
         // To keep the example simple, the user's spotify profile is returned to
         // represent the logged-in user. In a typical application, you would want
@@ -53,13 +58,13 @@ app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(__dirname + '/public'));
+//app.use(express.static(__dirname + '/public'));
 //   app.get('/logout', function(req, res) {
 //     req.logout();
 //     res.redirect('/');
 //   });
   
-  app.listen(8888);
+  //app.listen(8888);
 
   // GET /auth/spotify/callback
   //   Use passport.authenticate() as route middleware to authenticate the
@@ -79,20 +84,53 @@ app.use(express.static(__dirname + '/public'));
     }
     res.redirect('/login');
   }
+var redirect_uri = 'http://localhost:8888/callback';
 
 module.exports = {
     spotify: {
-        login() {
-            passport.authenticate('spotify', {
-                scope: ['user-read-email', 'user-read-private'],
-                showDialog: true
-              });
+        login(req, res) {
+          console.log("spotify!");
+          //This isn't working
+          // passport.authenticate('spotify', {
+          //       scope: ['user-read-email', 'user-read-private'],
+          //       showDialog: true
+          //     });
+          res.redirect('https://accounts.spotify.com/authorize?' +
+          querystring.stringify({
+            response_type: 'code',
+            client_id: process.env.SPOTIFY_CLIENT_ID,
+            scope: 'user-read-private user-read-email',
+            redirect_uri
+          }))
         },
-        callback() {
-            passport.authenticate('spotify', { failureRedirect: '/login' }),
-            function(req, res) {
-              res.redirect('/');
-            }
+        callback(req, res) {
+          console.log("spotify callback!");
+          let code = req.query.code || null
+          let authOptions = {
+            url: 'https://accounts.spotify.com/api/token',
+            form: {
+              code: code,
+              redirect_uri,
+              grant_type: 'authorization_code'
+            },
+            headers: {
+              'Authorization': 'Basic ' + (new Buffer(
+                process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
+              ).toString('base64'))
+            },
+            json: true
+          }
+          request.post(authOptions, function(error, response, body) {
+            var access_token = body.access_token
+            let uri = process.env.FRONTEND_URI || 'http://localhost:8080/#/services'
+            res.redirect(uri + '?access_token=' + access_token)
+          })
+          
+          //This isn't working
+          // passport.authenticate('spotify', { successRedirect: '/login', failureRedirect: '/login' }),
+          //   function(req, res) {
+          //     res.redirect('/');
+          //   }
         }
     }
 }

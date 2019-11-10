@@ -2,7 +2,7 @@
   <v-container>
     <v-layout text-center wrap>
       <v-btn>
-        <span @click="linkAccount(services.SPOTIFY)">Add spotify</span>
+        <a target="_self" href="/auth/spotify">Link Spotify</a>
       </v-btn>
     </v-layout>
   </v-container>
@@ -25,6 +25,10 @@ export default class MusicServices extends Vue {
     OAuthService.linkAccount({service: service}).then(function(res) {
       console.log(res);
     });
+  }
+  
+  created (res) {
+    
   }
 }
 </script>

@@ -79,7 +79,10 @@ function Strategy(options, verify) {
       post_data,
       null,
       function(error, data, response) {
-        if (error) callback(error);
+        if (error) {
+          console.log(error);
+          callback(error);
+        }
         else {
           var results = JSON.parse(data);
           var access_token = results.access_token;
