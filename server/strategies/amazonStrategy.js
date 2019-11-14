@@ -1,7 +1,6 @@
-var express = require("express"),
-  passport = require("passport"),
-  util = require("util"),
-  AmazonStrategy = require("passport-amazon").Strategy;
+const passport = require("passport"),
+  AmazonStrategy = require("passport-amazon").Strategy,
+  LinkedAccount = require("../models/LinkedAccount");
 
 var AMAZON_CLIENT_ID =
   "amzn1.application-oa2-client.0b750212391141009e0dbdcba9f60757";
@@ -16,6 +15,12 @@ passport.use(
       callbackURL: "http://localhost:8888/auth/amazon/callback"
     },
     function(accessToken, refreshToken, profile, actualProfile, done) {
+      var linkedAccount = new LinkedAccount({
+        service: "Amazon",
+        profile: profile,
+        accessToken: accessToken,
+        refreshToken: refreshToken
+      });
       process.nextTick(function() {
         return done(null, accessToken);
       });

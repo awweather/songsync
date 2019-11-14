@@ -23,19 +23,7 @@ export default class MusicServices extends Vue {
   name: String = "MusicServices";
   posts: Array<object> = [];
   error: String = "";
-  services: Object = {
-    SPOTIFY: "spotify"
-  }
-  linkAccount(service){
-    //This gives a CORS error
-    OAuthService.linkAccount({service: service}).then(function(res) {
-      console.log(res);
-    });
-  }
   
-  created (res) {
-    
-  }
 }
 </script>
 

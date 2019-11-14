@@ -11,9 +11,10 @@ passport.use(
     {
       clientID: SPOTIFY_CLIENT_ID,
       clientSecret: SPOTIFY_CLIENT_SECRET,
-      callbackURL: "http://localhost:8888/callback"
+      callbackURL: "http://localhost:8888/callback",
+      passReqToCallback: true
     },
-    function(accessToken, refreshToken, profile, done) {
+    function(req, accessToken, refreshToken, profile, done) {
       process.nextTick(function() {
         return done(null, accessToken);
       });

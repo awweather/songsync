@@ -31,15 +31,15 @@ app.use(function(req, res, next) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-// passport.serializeUser(function(user, done) {
-//   console.log(user);
-//   done(null, user);
-// });
+passport.serializeUser(function(user, done) {
+  console.log(user);
+  done(null, user);
+});
 
-// passport.deserializeUser(function(obj, done) {
-//   //console.log(user);
-//   done(null, obj);
-// });
+passport.deserializeUser(function(obj, done) {
+  //console.log(user);
+  done(null, obj);
+});
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -87,7 +87,7 @@ process.env.GOOGLE_CLIENT_SECRET = "prkPq7Xs0jaAriLMUxS8dZot";
 process.env.AMAZON_CLIENT_ID = "amzn1.application-oa2-client.0b750212391141009e0dbdcba9f60757";
 process.env.AMAZON_CLIENT_SECRET = "bb33c7ae3241b8d85cc97bb0a6e5876d65bcd1d843417bb3c0b74be9b3afdbdc";
 
-require('./routes.js')(app);
+require('./routes/routes.js')(app);
 
 //Handle Prod
 if (process.env.NODE_ENV === 'production'){
