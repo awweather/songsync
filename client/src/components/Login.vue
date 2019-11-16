@@ -61,20 +61,17 @@ export default class Login extends Vue {
   nameRules: Array<any> = [v => !!v || 'Username is required', v => (v && v.length <= 10) || 'Name must be less than 10 characters'];
   passwordRules: Array<any> = [v => !!v || 'Password is required', v => (v && v.length >= 8) || 'Password must be at least 8 characters'];
   
-  login(e: any) {
+  async login(e: any) {
     e.preventDefault();
     let info = {
       email: this.email,
       password: this.password
     };
-    let self = this;
-    AuthService.login(info).then(function(res) {
-      self.$store.dispatch('setToken', res.data.token);
-      self.$store.dispatch('setUser', res.data.user);
-      self.$router.push({name: 'Dashboard'});
-    }).catch(function(err){
-      console.log(err);
-    });
+    await this.$store.dispatch('login', info);
+
+    if (this.$store.getters.isUserLoggedIn){
+      this.$router.push('Dashboard');
+    }
   };
 }
 </script>

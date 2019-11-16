@@ -63,29 +63,11 @@ app.use(function (req, res, next) {
     next();
 });
 
-// app.use(cors({
-//     origin: function(origin, callback) {
-         
-//     if(!origin) return callback(null, true);
-//     if(allowedOrigins.indexOf(origin) === -1){
-//       var msg = 'The CORS policy for this site does not ' +
-//                 'allow access from the specified Origin.';
-//       return callback(new Error(msg), false);
-//     }
-//     return callback(null, true);
-//     }
-// }));
+app.use(cors());
 
 //Custom configs
 //These should go in a .env file
-process.env.SPOTIFY_CLIENT_ID = "4197a6642f7443508c00a17b38a62131";
-process.env.SPOTIFY_CLIENT_SECRET = "829da8a3b44f49cf8f3e511a8debd996";
 process.env.DB_NAME = "vue-express";
-process.env.GOOGLE_CLIENT_ID = "874889913027-3eb7g79km0fekdqlo0tejqmqloluhfmm.apps.googleusercontent.com";
-process.env.GOOGLE_CLIENT_SECRET = "prkPq7Xs0jaAriLMUxS8dZot";
-
-process.env.AMAZON_CLIENT_ID = "amzn1.application-oa2-client.0b750212391141009e0dbdcba9f60757";
-process.env.AMAZON_CLIENT_SECRET = "bb33c7ae3241b8d85cc97bb0a6e5876d65bcd1d843417bb3c0b74be9b3afdbdc";
 
 require('./routes/routes.js')(app);
 

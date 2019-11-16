@@ -8,7 +8,7 @@ const url = "https://api.spotify.com/v1/search?";
 // Token is hardcoded - to get a new one, click the "Link Spotify" and login, should return an accessToken in the URL
 var api = axios.create({
   baseURL: url,
-  headers: {"Authorization":"Bearer BQAv1hbkkP6DQkCJBoVJVyuECcoUsVnwXl5qzO7h9B-wyK8sqGell6C_zCF1OfZJqmgWW72ljy_iJ_E6cL_ZdQi81YTillhQdWcQyYZKw6jwATxSwJAIp-9V47yOnWHlLRtr44pyY7O4s6yj4aE1vNorh0FzgaKGww" }
+  headers: {"Authorization":"Bearer BQCfjq70x8JC1_uOmn_EUQC9npRkK-d-nJ8Rw5jz-Fhr7PVU6wnq1Ism8myC8Vb8TEAGCLLsmLMA9I-iShtqN3kK6DSXWUCQBrk7Vg2vX6RtT01XxLYQFZYYJWcR2ZKtrzEknP3td53J4jvi_p8fOttrxWB-DmcgNA" }
 })
 
 

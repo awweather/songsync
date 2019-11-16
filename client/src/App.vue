@@ -1,24 +1,24 @@
 <template>
   <v-app>
     <v-app-bar app>
-      <v-toolbar-title class="headline text-uppercase">
+      <v-toolbar-title class="headline text-uppercase margin-right-5">
         <span>Song</span>
         <span class="font-weight-light">Sync</span>
       </v-toolbar-title>
-      <v-btn text to="/dashboard" v-if="$store.state.isUserLoggedIn">
+      <v-btn text to="/dashboard" v-if="$store.getters.isUserLoggedIn">
         Browse
       </v-btn>
-      <v-btn text to="/services" v-if="$store.state.isUserLoggedIn">
+      <v-btn text to="/services" v-if="$store.getters.isUserLoggedIn">
         Add Music Services
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn v-if="!$store.state.isUserLoggedIn" text to="/register">
+      <v-btn v-if="!$store.getters.isUserLoggedIn" text to="/register">
         <span class="mr-2">Sign Up</span>
       </v-btn>
-      <v-btn text to="/login" v-if="!$store.state.isUserLoggedIn">
+      <v-btn text to="/login" v-if="!$store.getters.isUserLoggedIn">
         <span class="mr-2">Log In</span>
       </v-btn>
-      <v-btn text to="/login" @click="logout" v-if="$store.state.isUserLoggedIn">
+      <v-btn text to="/login" @click="logout" v-if="$store.getters.isUserLoggedIn">
         <span class="mr-2">Log out</span>
       </v-btn>
     </v-app-bar>
@@ -43,12 +43,17 @@ export default Vue.extend({
   }),
   methods: {
     logout() {
-      this.$store.dispatch("setToken", null);
-      this.$store.dispatch("setUser", null);
-      this.$router.push({ name: "login" });
+      this.$store.dispatch("logout");
     }
   },
   created() {
+
   }
 });
 </script>
+
+<style scoped>
+  .margin-right-5 {
+    margin-right: 5px;
+  }
+</style>
