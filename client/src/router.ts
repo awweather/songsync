@@ -13,13 +13,6 @@ const router = new VueRouter({
     { name: "register", path: "/register", component: Register, props: true },
     { name: "login", path: "/login", component: Login, props: true },
     {
-      name: "MusicServices",
-      path: "/services",
-      component: MusicServices,
-      props: true,
-      meta: { requiresAuth: true }
-    },
-    {
       name: "Dashboard",
       path: "/dashboard",
       component: Dashboard,

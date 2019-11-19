@@ -5,6 +5,8 @@ module.exports = app => {
   app.post("/auth/register", AuthController.register);
   app.post("/auth/login", AuthController.login);
 
+  app.post("/auth/pandora", OAuthController.pandora.login);
+
   app.get("/auth/spotify", OAuthController.spotify.login);
     //auth/spotify/callback doesn't work for some reason
   app.get("/callback", (req, res, next) => {

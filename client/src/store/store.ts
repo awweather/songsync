@@ -1,7 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import AuthService from "../services/AuthService";
+import OAuthService from "../services/OAuthService";
 import axios from "axios";
+import ServiceProvidersEnum from "../enums/ServiceProviders";
 
 Vue.use(Vuex);
 
@@ -12,6 +14,9 @@ export default new Vuex.Store({
     status: "",
     spotify: {
       token: null
+    },
+    pandora: {
+      token: localStorage.getItem("pandora_token") || null
     }
   },
   mutations: {
@@ -25,6 +30,9 @@ export default new Vuex.Store({
     },
     auth_error(state: any) {
       state.status = "error";
+    },
+    link_account_success(state: any, result: any) {
+      state[result.service].token = result.token;
     },
     logout(state: any) {
       state.status = "";
@@ -53,7 +61,7 @@ export default new Vuex.Store({
     },
     async register({ commit }: any, data: any) {
       try {
-        var resp = await AuthService.register(data);
+        const resp = await AuthService.register(data);
         const token = resp.data.token;
         const user = resp.data.user;
         localStorage.setItem("token", token);
@@ -65,10 +73,32 @@ export default new Vuex.Store({
         commit("auth_error", err);
         localStorage.removeItem("token");
       }
+    },
+    async linkAccount({commit}, service) {
+      try {
+        const resp = await OAuthService.linkAccount(service);
+        const token = resp.data.accessToken;
+        localStorage.setItem(service + "_token", token);
+        commit("link_account_success", { token, service });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  async linkPandoraAccount({commit}, data) {
+      try {
+        const resp = await OAuthService.linkPandora(data);
+        const token = resp.data.accessToken;
+        const service = ServiceProvidersEnum.Pandora;
+        localStorage.setItem(service + "_token", token);
+        commit("link_account_success", { token, service });
+      } catch (err) {
+        console.log(err);
+      }
     }
   },
   getters: {
     isUserLoggedIn: state => !!state.token,
+    pandoraLinked: state => state[ServiceProvidersEnum.Pandora].token,
     authStatus: state => state.status
   }
 });

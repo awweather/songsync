@@ -2,6 +2,7 @@
 let amazonStrategy = require("../strategies/amazonStrategy");
 let spotifyStrategy = require("../strategies/spotifyStrategy");
 let googleStrategy = require("../strategies/googleStrategy");
+let pandoraStrategy = require("../strategies/pandoraStrategy");
 
 module.exports = {
     spotify: {
@@ -32,6 +33,12 @@ module.exports = {
       callback (req, res, next) {
         console.log("amazon callback!");
         amazonStrategy.callback(req, res, next);
+      }
+    },
+    pandora: {
+      login(req, res, next) {
+        console.log("pandora login!");
+        pandoraStrategy.login(req, res, next);
       }
     }
 }

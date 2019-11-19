@@ -52,13 +52,13 @@ module.exports = {
     console.log("GOOGLE callback!");
     passport.authenticate(
       "google",
-      { successRedirect: "/#/services", failureRedirect: "/login" },
+      { successRedirect: "/#/dashboard", failureRedirect: "/login" },
       function(err, accessToken, info) {
         if (err) {
           return res.status(401).json(err);
         }
         if (accessToken) {
-          return res.status(200).redirect("http://localhost:8080/#/services?accessToken=" + accessToken);
+          return res.status(200).redirect("http://localhost:8080/#/dashboard?accessToken=" + accessToken);
         }
       }
     )(req, res, next);

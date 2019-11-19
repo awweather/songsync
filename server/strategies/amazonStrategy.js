@@ -52,13 +52,13 @@ module.exports = {
     console.log("amazon callback!");
     passport.authenticate(
       "amazon",
-      { successRedirect: "/#/services", failureRedirect: "/login" },
-      function(err, user, info) {
+      { successRedirect: "/#/dashboard", failureRedirect: "/login" },
+      function(err, accessToken, info) {
         if (err) {
           return res.status(401).json(err);
         }
         if (user) {
-          return res.status(200).redirect("http://localhost:8080/#/services");
+          return res.status(200).redirect("http://localhost:8080/#/dashboard?accessToken=" + accessToken);
         }
       }
     )(req, res, next);

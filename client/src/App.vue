@@ -5,12 +5,7 @@
         <span>Song</span>
         <span class="font-weight-light">Sync</span>
       </v-toolbar-title>
-      <v-btn text to="/dashboard" v-if="$store.getters.isUserLoggedIn">
-        Browse
-      </v-btn>
-      <v-btn text to="/services" v-if="$store.getters.isUserLoggedIn">
-        Add Music Services
-      </v-btn>
+      <v-btn text to="/dashboard" v-if="$store.getters.isUserLoggedIn">Browse</v-btn>
       <v-spacer></v-spacer>
       <v-btn v-if="!$store.getters.isUserLoggedIn" text to="/register">
         <span class="mr-2">Sign Up</span>
@@ -24,6 +19,7 @@
     </v-app-bar>
 
     <v-content>
+      <music-services class="float-left" v-if="$store.getters.isUserLoggedIn"></music-services>
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -32,10 +28,12 @@
 <script lang="ts">
 import Vue from "vue";
 import ServiceProvidersEnum from "./enums/ServiceProviders";
+import MusicServices from "./components/MusicServices.vue";
 
 export default Vue.extend({
   name: "App",
   components: {
+    MusicServices
     //HelloWorld
   },
   data: () => ({
@@ -46,14 +44,21 @@ export default Vue.extend({
       this.$store.dispatch("logout");
     }
   },
-  created() {
-
-  }
+  created() {}
 });
 </script>
 
 <style scoped>
-  .margin-right-5 {
-    margin-right: 5px;
-  }
+.margin-right-5 {
+  margin-right: 5px;
+}
+
+.margin-top-60 {
+  margin-top: 60px;
+}
+
+.float-left {
+  float: left;
+}
+
 </style>
