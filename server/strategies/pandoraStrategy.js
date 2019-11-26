@@ -5,24 +5,36 @@ module.exports = {
   login(req, res, next) {
     const username = req.body.username;
     const password = req.body.password;
-
-    const options = {
-      method: "POST",
-      url: "https://www.pandora.com/api/v1/auth/login",
+    const options2 = {
+      method: "GET",
+      url: "https://www.pandora.com/",
       headers: {
-        Cookie:
-          "wrt=166645577_1bqhjniulk3v2jakhhhoej37i8; v2regbstage=; csrftoken=6ae0da6c8c1a49a5; at=wgkHSOtb56+yTQPuUPlPBc46LS4y2/guZV7Gm2/SguYRF0bLh5ijIA4uRM0POFArHN1p126cjZfw=; wrt=",
-        Host: "www.pandora.com",
-        "X-CSRFToken": "6ae0da6c8c1a49a5",
         "Content-Type": "application/json"
       },
-      body: { password: password, username: username },
       json: true
     };
-    request(options, function(error, response, body) {
-      if (!error)
-        res.status(200).send({accessToken: body.authToken});
+
+    request(options2, function(error, response, body) {
+      const cookie = response['headers']['set-cookie'][1];
+      const csrftoken = cookie.substr(cookie.indexOf('=') + 1, 16);
+      console.log(csrftoken);
+      const options = {
+        method: "POST",
+        url: "https://www.pandora.com/api/v1/auth/login",
+        headers: {
+          Cookie: `v2regbstage=; ${cookie}`,
+          "X-CSRFToken": `${csrftoken}`,
+          "Content-Type": "application/json"
+        },
+        body: { password: password, username: username },
+        json: true
+      };
+      request(options, function(error, response, body) {
+        if (!error)
+          res.status(200).send({accessToken: body.authToken});
+      });
     });
+   
   },
   callback(req, res, next) {}
 };

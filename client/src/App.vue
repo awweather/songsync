@@ -28,7 +28,7 @@
 <script lang="ts">
 import Vue from "vue";
 import ServiceProvidersEnum from "./enums/ServiceProviders";
-import MusicServices from "./components/MusicServices.vue";
+import MusicServices from "./components/musicServices/MusicServices.vue";
 
 export default Vue.extend({
   name: "App",

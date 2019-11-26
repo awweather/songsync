@@ -1,14 +1,30 @@
 const AuthController = require("../controllers/AuthController");
 const OAuthController = require("../controllers/OAuthController");
+const passport = require("passport");
 
 module.exports = app => {
-  app.post("/auth/register", AuthController.register);
-  app.post("/auth/login", AuthController.login);
 
-  app.post("/auth/pandora", OAuthController.pandora.login);
+  app.post("/dashboard", AuthController.userLoggedIn);
+  app.get("/auth/user", AuthController.userLoggedIn, AuthController.getUser);
+  app.post("/auth/register", AuthController.register);
+  app.post(
+    "/auth/login",
+    passport.authenticate("local"), 
+    (req, res, next) => {
+      console.log(res.redirect);
+      res.status(200).send({user: req.user});
+    }
+  );
+
+  // app.post("/auth/login", AuthController.login);
+
+  app.post(
+    "/auth/pandora",
+    OAuthController.pandora.login
+  );
 
   app.get("/auth/spotify", OAuthController.spotify.login);
-    //auth/spotify/callback doesn't work for some reason
+  //auth/spotify/callback doesn't work for some reason
   app.get("/callback", (req, res, next) => {
     OAuthController.spotify.callback(req, res, next);
   });

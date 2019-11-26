@@ -7,9 +7,7 @@
         <slot name="content"></slot>
         <v-divider></v-divider>
         <v-card-actions>
-          <slot :action="action" name="actions">
-            
-          </slot>
+          <slot :action="action" name="actions"></slot>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -21,9 +19,9 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component
 export default class Modal extends Vue {
-  @Prop({ required: true }) dialog: boolean;
-  @Prop({ required: true }) title: string;
-  @Prop() valid: boolean;
-  @Prop() action: object;
+  @Prop({ required: true }) dialog: boolean = false;
+  @Prop({ required: true }) title: string = "";
+  @Prop() valid: boolean = false;
+  @Prop() action: object = {};
 }
 </script>

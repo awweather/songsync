@@ -1,13 +1,12 @@
 import Vue from "vue";
 import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
-import HelloWorld from './components/HelloWorld.vue';
 import store from './store/store';
 import { sync } from 'vuex-router-sync';
 import axios from "axios";
 import router from "./router";
 
-Vue.config.productionTip = false;
+Vue.prototype.$http = axios;
 
 //sync(store, router);
 

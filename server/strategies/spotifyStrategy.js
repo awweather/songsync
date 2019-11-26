@@ -16,7 +16,7 @@ passport.use(
     },
     function(req, accessToken, refreshToken, profile, done) {
       process.nextTick(function() {
-        return done(null, accessToken);
+        return done(null, accessToken, req);
       });
     }
   )
@@ -24,11 +24,11 @@ passport.use(
 
 module.exports = {
   login(req, res, next) {
+    token = req.headers["x-access-token"] || req.headers["authorization"];
     passport.authenticate(
       "spotify",
       { scope: ["user-read-email", "user-read-private"] },
       function(err, user, info) {
-        console.log("user");
         if (err) {
           return res.status(401).json(err);
         }
@@ -48,21 +48,17 @@ module.exports = {
     passport.authenticate(
       "spotify",
       { successRedirect: "/#/dashboard", failureRedirect: "/login" },
-      function(err, accessToken, info) {
+      function(err, accessToken, req) {
+         
         if (err) {
-          return res.status(401).json(err);
+          return res.status(401).json(err); 
         }
         if (accessToken) {
+          // Add spotify token to session
+          req.user.linkedAccounts.spotify = accessToken;
           return res.status(200).redirect("http://localhost:8080/#/dashboard?accessToken=" + accessToken);
         }
       }
     )(req, res, next);
   }
 };
-
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/login");
-}

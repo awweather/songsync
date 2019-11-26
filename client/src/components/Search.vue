@@ -39,7 +39,7 @@ export default class Search extends Vue {
   @Prop() searchType: string;
   @Prop() searchText: string;
 
-  filter: string;
+  filter: string = "";
   loading: boolean = false;
   searchResults: Array<SearchResult> = [];
   searchService: ISearchService = SearchServiceFactory.getService(

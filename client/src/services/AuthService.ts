@@ -1,6 +1,9 @@
 import axios from "axios";
 import { __exportStar } from "tslib";
 
+const service = axios.create({
+  withCredentials: true
+})
 const url = "auth/";
 
 class AuthService {
@@ -8,7 +11,18 @@ class AuthService {
   static login(data: any) {
     return new Promise<any>(async (resolve, reject) => {
       try {
-        const res = await axios.post(url + 'login', data);
+        const res = await service.post(url + 'login', data);
+        resolve(res);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  static getUser() {
+    return new Promise<any>(async (resolve, reject) => {
+      try {
+        const res = await service.get(url + 'user');
         resolve(res);
       } catch (err) {
         reject(err);
@@ -19,7 +33,7 @@ class AuthService {
   static register(data: any) {
     return new Promise<any>(async (resolve, reject) => {
       try {
-        const res = await axios.post(url + 'register', data);
+        const res = await service.post(url + 'register', data);
         resolve(res);
       } catch (err) {
         reject(err);

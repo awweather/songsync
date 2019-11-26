@@ -1,17 +1,16 @@
 
-let amazonStrategy = require("../strategies/amazonStrategy");
-let spotifyStrategy = require("../strategies/spotifyStrategy");
-let googleStrategy = require("../strategies/googleStrategy");
-let pandoraStrategy = require("../strategies/pandoraStrategy");
+const amazonStrategy = require("../strategies/amazonStrategy");
+const spotifyStrategy = require("../strategies/spotifyStrategy");
+const googleStrategy = require("../strategies/googleStrategy");
+const pandoraStrategy = require("../strategies/pandoraStrategy");
+const AuthController = require("../controllers/AuthController");
 
 module.exports = {
     spotify: {
         login(req, res) {
-          console.log("spotify!");
           spotifyStrategy.login(req, res);
         },
         callback(req, res) {
-          console.log("spotify callback!");
           spotifyStrategy.callback(req, res);
         }
     },

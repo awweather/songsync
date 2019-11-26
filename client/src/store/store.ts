@@ -10,13 +10,15 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     token: localStorage.getItem("token"),
-    user: null,
+    user: localStorage.getItem("user"),
     status: "",
     spotify: {
-      token: null
+      token: null,
+      status: localStorage.getItem("spotify_token") ? "connected" : "not_connected"
     },
     pandora: {
-      token: localStorage.getItem("pandora_token") || null
+      token: localStorage.getItem("pandora_token") || null,
+      status: ""
     }
   },
   mutations: {
@@ -25,31 +27,41 @@ export default new Vuex.Store({
     },
     auth_success(state: any, result: any) {
       state.status = "success";
-      state.token = result.token;
-      state.user = result.user;
+      state.user = JSON.stringify(result.user);
     },
     auth_error(state: any) {
       state.status = "error";
     },
     link_account_success(state: any, result: any) {
       state[result.service].token = result.token;
+      state[result.service].status = "connected";
     },
     logout(state: any) {
       state.status = "";
-      state.token = "";
+      state.user = "";
     }
   },
   actions: {
+    linkAccounts({ commit }: any, data: object) {
+      var self = this;
+      Object.keys(data).forEach(service => {
+        if (self.state[service].status === "not_connected") {
+          const token = data[service];
+          localStorage.setItem(service + "_token", token);
+          commit("link_account_success", {
+            token: token,
+            service: service
+          });
+        }
+      });
+    },
     async login({ commit }: any, data: any) {
       try {
         var resp = await AuthService.login(data);
-        const token = resp.data.token;
         const user = resp.data.user;
-        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
 
-        // Add the following line:
-        axios.defaults.headers.common["Authorization"] = token;
-        commit("auth_success", { token, user });
+        commit("auth_success", { user });
       } catch (err) {
         commit("auth_error", err);
         localStorage.removeItem("token");
@@ -57,14 +69,14 @@ export default new Vuex.Store({
     },
     logout({ commit }: any) {
       commit("logout");
-      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     },
     async register({ commit }: any, data: any) {
       try {
         const resp = await AuthService.register(data);
         const token = resp.data.token;
         const user = resp.data.user;
-        localStorage.setItem("token", token);
+        localStorage.setItem("user", user);
 
         // Add the following line:
         axios.defaults.headers.common["Authorization"] = token;
@@ -74,7 +86,7 @@ export default new Vuex.Store({
         localStorage.removeItem("token");
       }
     },
-    async linkAccount({commit}, service) {
+    async linkAccount({ commit }, service) {
       try {
         const resp = await OAuthService.linkAccount(service);
         const token = resp.data.accessToken;
@@ -84,7 +96,7 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
-  async linkPandoraAccount({commit}, data) {
+    async linkPandoraAccount({ commit }, data) {
       try {
         const resp = await OAuthService.linkPandora(data);
         const token = resp.data.accessToken;
@@ -97,8 +109,10 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    isUserLoggedIn: state => !!state.token,
+    isUserLoggedIn: state => !!state.user,
     pandoraLinked: state => state[ServiceProvidersEnum.Pandora].token,
-    authStatus: state => state.status
+    spotifyLinked: state => state[ServiceProvidersEnum.Spotify].token,
+    authStatus: state => state.status,
+    userName: state => JSON.parse(state.user).username
   }
 });

@@ -3,7 +3,9 @@ module.exports = {
   devServer: {
     proxy: {
       "/auth/*": {
-        target: "http://localhost:8888/"
+        target: "http://localhost:8888/",
+        ws: true,
+        changeOrigin: true
       }
     }
   },

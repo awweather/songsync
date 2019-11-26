@@ -1,19 +1,26 @@
 <template>
   <modal
-    @close="dialog=false"
+    @close="dialog = false"
     v-bind:dialog="dialog"
     v-bind:title="title"
     v-bind:valid="valid"
     v-bind:action="action"
   >
     <template v-slot:activator>
-      <v-list-item-title color="red lighten-2" dark @click.stop="dialog=true">Pandora</v-list-item-title>
+      <v-list-item-title color="red lighten-2" dark @click.stop="dialog = true"
+        >Pandora</v-list-item-title
+      >
     </template>
     <template v-slot:content>
-      <v-form ref="form" v-model="valid">
+      <v-form v-if="!$store.getters.pandoraLinked" ref="form" v-model="valid">
         <v-list>
           <v-list-item>
-            <v-text-field v-model="username" label="Username" :rules="nameRules" required></v-text-field>
+            <v-text-field
+              v-model="username"
+              label="Username"
+              :rules="nameRules"
+              required
+            ></v-text-field>
           </v-list-item>
           <v-list-item>
             <v-text-field
@@ -28,16 +35,22 @@
         </v-list>
       </v-form>
     </template>
-    <template v-slot:actions="{action}">
-      <v-btn @click.stop="dialog=false" :disabled="!valid" @click="connect">{{action.text}}</v-btn>
+    <template v-slot:actions="{ action }">
+      <v-btn
+        class="primary"
+        @click.stop="dialog = false"
+        :disabled="!valid"
+        @click="connect"
+        >{{ action.text }}</v-btn
+      >
     </template>
   </modal>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Modal from "../components/Modal.vue";
-import OAuthService from "../services/OAuthService";
+import Modal from "../../Modal.vue";
+import OAuthService from "../../../services/OAuthService";
 
 @Component({
   components: {
@@ -45,6 +58,7 @@ import OAuthService from "../services/OAuthService";
   }
 })
 export default class PandoraLogin extends Vue {
+  name: string = "PandoraLogin";
   dialog: boolean = false;
   password: string = "";
   username: string = "";
@@ -52,8 +66,10 @@ export default class PandoraLogin extends Vue {
   title: string = "Log in with Pandora";
 
   async connect() {
-    await this.$store.dispatch('linkPandoraAccount', {username: this.username, password: this.password});
-        
+    await this.$store.dispatch("linkPandoraAccount", {
+      username: this.username,
+      password: this.password
+    });
   }
 
   action: object = {
@@ -73,5 +89,4 @@ export default class PandoraLogin extends Vue {
 }
 </script>
 
-<style>
-</style>
+<style></style>
