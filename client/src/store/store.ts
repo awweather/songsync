@@ -13,7 +13,7 @@ export default new Vuex.Store({
     user: localStorage.getItem("user"),
     status: "",
     spotify: {
-      token: null,
+      token: localStorage.getItem("spotify_token") || null,
       status: localStorage.getItem("spotify_token") ? "connected" : "not_connected"
     },
     pandora: {

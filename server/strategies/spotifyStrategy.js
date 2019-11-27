@@ -56,7 +56,7 @@ module.exports = {
         if (accessToken) {
           // Add spotify token to session
           req.user.linkedAccounts.spotify = accessToken;
-          return res.status(200).redirect("http://localhost:8080/#/dashboard?accessToken=" + accessToken);
+          return res.status(200).redirect("http://localhost:8080/#/dashboard");
         }
       }
     )(req, res, next);
