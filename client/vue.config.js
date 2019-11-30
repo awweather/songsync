@@ -6,6 +6,11 @@ module.exports = {
         target: "http://localhost:8888/",
         ws: true,
         changeOrigin: true
+      },
+      "/search/*": {
+        target: "http://localhost:8888/",
+        ws: true,
+        changeOrigin: true
       }
     }
   },

@@ -1,27 +1,20 @@
 const AuthController = require("../controllers/AuthController");
 const OAuthController = require("../controllers/OAuthController");
+const SearchController = require("../controllers/SearchController");
 const passport = require("passport");
 
 module.exports = app => {
-
   app.post("/dashboard", AuthController.userLoggedIn);
   app.get("/auth/user", AuthController.userLoggedIn, AuthController.getUser);
   app.post("/auth/register", AuthController.register);
-  app.post(
-    "/auth/login",
-    passport.authenticate("local"), 
-    (req, res, next) => {
-      console.log(res.redirect);
-      res.status(200).send({user: req.user});
-    }
-  );
+  app.post("/auth/login", passport.authenticate("local"), (req, res, next) => {
+    console.log(res.redirect);
+    res.status(200).send({ user: req.user });
+  });
 
   // app.post("/auth/login", AuthController.login);
 
-  app.post(
-    "/auth/pandora",
-    OAuthController.pandora.login
-  );
+  app.post("/auth/pandora", OAuthController.pandora.login);
 
   app.get("/auth/spotify", OAuthController.spotify.login);
   //auth/spotify/callback doesn't work for some reason
@@ -43,6 +36,10 @@ module.exports = app => {
 
   app.get("/auth/amazon/callback", (req, res, next) => {
     OAuthController.amazon.callback(req, res, next);
+  });
+
+  app.post("/search/spotify", async (req, res) => {
+    await SearchController.search(req, res, "spotify");
   });
   console.log("registered!");
 };

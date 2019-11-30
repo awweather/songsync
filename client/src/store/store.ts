@@ -18,7 +18,7 @@ export default new Vuex.Store({
     },
     pandora: {
       token: localStorage.getItem("pandora_token") || null,
-      status: ""
+      status: localStorage.getItem("spotify_token") ? "connected" : "not_connected"
     }
   },
   mutations: {

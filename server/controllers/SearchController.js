@@ -1,19 +1,23 @@
+const SearchServiceFactory = require("../factories/SearchServiceFactory");
+
 module.exports = {
-    async search (req, res) {
-        console.log("login");
-        const {email, password} = req.body;
+    async search (req, res, service) {
+        let searchService;
+        const {text, type} = req.body;
+        const token = req.user.linkedAccounts[service] ? req.user.linkedAccounts[service] : null;
+        console.log(req.user);
+        console.log("TOKEN: " + token);
+
+        if (token) { 
+            searchService = SearchServiceFactory.getService(service, token, type, text);
+        }
+
         try {
-            res.redirect('https://api.spotify.com/v1/search?' +
-            querystring.stringify({
-              scope: "https://www.googleapis.com/auth/androidpublisher",
-              access_type: "offline",
-              response_type: 'code',
-              client_id: process.env.GOOGLE_CLIENT_ID,
-              redirect_uri: google_redirect_uri
-            }))
-    
+            const results = await searchService.search();
+            console.log("Search results: " + results);
+            res.status(200).send({ results: results});
         } catch (err) {
-            res.status(500).send({error: 'An error occured trying to log in'});
+            res.status(500).send({error: 'An error occured trying to search'});
             console.log(err);
         }
     }

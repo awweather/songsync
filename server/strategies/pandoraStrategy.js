@@ -1,5 +1,4 @@
-const request = require("request"),
-  querystring = require("querystring");
+const request = require("request");
 
 module.exports = {
   login(req, res, next) {
@@ -17,7 +16,6 @@ module.exports = {
     request(options2, function(error, response, body) {
       const cookie = response['headers']['set-cookie'][1];
       const csrftoken = cookie.substr(cookie.indexOf('=') + 1, 16);
-      console.log(csrftoken);
       const options = {
         method: "POST",
         url: "https://www.pandora.com/api/v1/auth/login",
@@ -31,10 +29,9 @@ module.exports = {
       };
       request(options, function(error, response, body) {
         if (!error)
+          req.user.linkedAccounts.pandora = body.authToken;
           res.status(200).send({accessToken: body.authToken});
       });
     });
-   
-  },
-  callback(req, res, next) {}
+  }
 };

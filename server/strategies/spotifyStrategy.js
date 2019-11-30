@@ -1,6 +1,7 @@
 const express = require("express"),
   passport = require("passport"),
   util = require("util"),
+  dataProvider = require("../providers/DataProvider");
   SpotifyStrategy = require("passport-spotify").Strategy;
 
 const SPOTIFY_CLIENT_ID = "4197a6642f7443508c00a17b38a62131";

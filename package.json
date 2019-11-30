@@ -29,6 +29,7 @@
     "passport-oauth": "^1.0.0",
     "passport-spotify": "^1.1.0",
     "request": "^2.88.0",
+    "request-promise": "^4.2.5",
     "swig": "^1.4.2"
   }
 }
