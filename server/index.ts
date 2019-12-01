@@ -6,6 +6,7 @@ const app = express();
 const session = require("express-session");
 const errorhandler = require("errorhandler");
 const cookieParser = require("cookie-parser");
+import Routes from "./routes/routes";
 
 app.use(cookieParser());
 app.use(bodyParser());
@@ -31,7 +32,6 @@ passport.deserializeUser(function(user, done) {
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-var allowedOrigins = ["http://localhost:8080", "http://localhost:8888"];
 
 app.use(function(req, res, next) {
   // Website you wish to allow to connect
@@ -63,7 +63,7 @@ app.use(cors());
 //These should go in a .env file
 process.env.DB_NAME = "vue-express";
 
-require("./routes/routes.js")(app);
+let routes = new Routes(app);
 
 //Handle Prod
 if (process.env.NODE_ENV === "production") {

@@ -1,8 +1,13 @@
-const request = require("request-promise");
+import * as request from "request-promise";
+import ResponseMapper from "../mappers/ResponseMapper";
+import ISearchService from "../services/ISearchService";
 const baseUrl = "https://api.spotify.com/v1/search?";
-const ResponseMapper = require("../mappers/ResponseMapper");
 
-class SpotifySearchService {
+class SpotifySearchService implements ISearchService {
+    token: string;
+    searchType: string;
+    searchText: string;
+
     constructor(token, type, text) {
         this.token = token;
         this.searchType = type;
@@ -20,7 +25,7 @@ class SpotifySearchService {
         }
     }
 
-    async search() {
+    async search() { 
         const options = this.getOptions();
 
         const response = await request(options, (error, res, body) => {
@@ -31,4 +36,4 @@ class SpotifySearchService {
     }
 }
 
-module.exports = SpotifySearchService;
+export default SpotifySearchService;

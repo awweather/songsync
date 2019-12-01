@@ -1,4 +1,4 @@
-const SpotifySearchService = require("../services/SpotifySearchService");
+import SpotifySearchService from "../services/SpotifySearchService";
 
 class SearchServiceFactory {
   constructor() {}
@@ -10,4 +10,5 @@ class SearchServiceFactory {
     }
   }
 }
-module.exports = new SearchServiceFactory();
+
+export default new SearchServiceFactory();

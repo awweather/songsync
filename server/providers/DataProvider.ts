@@ -1,6 +1,6 @@
-const mongodb = require("mongodb");
+import * as mongodb from "mongodb";
 
-module.exports = {
+class DataProvider {
   async getClient() {
     if (process.env.NODE_ENV === "production") {
       return await mongodb.MongoClient.connect(
@@ -14,9 +14,12 @@ module.exports = {
         useNewUrlParser: true
       });
     }
-  },
-  async getUsers() {
-    var client = await this.getClient();
-    return client.db(process.env.DB_NAME).collection("users");
   }
-};
+
+  async getUsers() {
+      const client = await this.getClient();
+      return client.db(process.env.DB_NAME).collection("users");
+  }
+}
+
+export default new DataProvider();

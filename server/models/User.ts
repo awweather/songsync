@@ -1,13 +1,18 @@
-const bcrypt = require("bcrypt");
+import * as bcrypt from "bcrypt";
 
 class User {
+  public username: string;
+  public password: string;
+  public email: string;
+  public linkedAccounts: object;
+  public createdAt: Date;
+  
   constructor(data) {
     this.username = data.username;
     this.password = data.password;
     this.email = data.email;
     this.linkedAccounts = data.linkedAccounts;
     this.createdAt = data.createdAt;
-    this.accessToken = data.accessToken;
   }
 
   async verifyPassword(providedPassword) {
@@ -15,4 +20,4 @@ class User {
   }
 }
 
-module.exports = User;
+export default User;

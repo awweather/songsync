@@ -1,8 +1,6 @@
-// Import the dependencies for testing
-const chai = require("chai");
-const ResponseMapper = require("../mappers/ResponseMapper");
+import * as chai from "chai";
+import ResponseMapper from "../mappers/ResponseMapper";
 const expect = chai.expect;
-chai.should();
 
 describe("Response Mapper", () => {
   describe("Spotify", () => {
@@ -27,6 +25,8 @@ describe("Response Mapper", () => {
 
       expect(result[0].title).to.equal(results.artists.items[0].name);
       expect(result[0].subtitle).to.equal(results.artists.items[0].type);
+      expect(result[1].title).to.equal(results.artists.items[1].name);
+      expect(result[1].subtitle).to.equal(results.artists.items[1].type);
     });
   });
 });
