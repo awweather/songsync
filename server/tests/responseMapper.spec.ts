@@ -11,18 +11,20 @@ describe("Response Mapper", () => {
           items: [
             {
               name: "Spotify_1",
-              type: "Arist_1"
+              type: "Artist_1"
             },
             {
               name: "Spotify_2",
-              type: "Arist_2"
+              type: "Artist_2"
             }
           ]
         }
       };
 
-      const result = ResponseMapper.mapSpotifyResults(results).to(filter);
-
+      const result = ResponseMapper.mapSpotifyResults(results)
+        .to(filter)
+        .value();
+        
       expect(result[0].title).to.equal(results.artists.items[0].name);
       expect(result[0].subtitle).to.equal(results.artists.items[0].type);
       expect(result[1].title).to.equal(results.artists.items[1].name);
