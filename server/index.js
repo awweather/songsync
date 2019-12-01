@@ -91,3 +91,5 @@ function errorNotification(err, str, req) {
 const port = process.env.PORT || 8888;
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
+
+module.exports = app;
