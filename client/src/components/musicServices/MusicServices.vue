@@ -1,5 +1,10 @@
 <template>
-  <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
+  <v-navigation-drawer
+    class="secondary-background"
+    v-model="drawer"
+    :mini-variant.sync="mini"
+    permanent
+  >
     <v-list-item>
       <v-list-item-avatar color="grey"></v-list-item-avatar>
       <v-list-item-title>{{ $store.getters.userName }}</v-list-item-title>
@@ -107,6 +112,4 @@ export default class MusicServices extends Vue {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,25 +1,35 @@
 <template>
   <v-app>
-    <v-app-bar class="primary-background color-white" app>
+    <v-app-bar class="primary-background" app>
       <v-toolbar-title class="headline text-uppercase margin-right-5">
         <span>Song</span>
         <span class="font-weight-light">Sync</span>
       </v-toolbar-title>
-      <v-btn class="color-white" text to="/dashboard" v-if="$store.getters.isUserLoggedIn">Browse</v-btn>
+      <v-btn text to="/dashboard" v-if="$store.getters.isUserLoggedIn"
+        >Browse</v-btn
+      >
       <v-spacer></v-spacer>
-      <v-btn class="color-white" v-if="!$store.getters.isUserLoggedIn" text to="/register">
+      <v-btn v-if="!$store.getters.isUserLoggedIn" text to="/register">
         <span class="mr-2">Sign Up</span>
       </v-btn>
-      <v-btn class="color-white" text to="/login" v-if="!$store.getters.isUserLoggedIn">
+      <v-btn text to="/login" v-if="!$store.getters.isUserLoggedIn">
         <span class="mr-2">Log In</span>
       </v-btn>
-      <v-btn class="color-white" text to="/login" @click="logout" v-if="$store.getters.isUserLoggedIn">
+      <v-btn
+        text
+        to="/login"
+        @click="logout"
+        v-if="$store.getters.isUserLoggedIn"
+      >
         <span class="mr-2">Log out</span>
       </v-btn>
     </v-app-bar>
 
     <v-content>
-      <music-services class="float-left" v-if="$store.getters.isUserLoggedIn"></music-services>
+      <music-services
+        class="float-left"
+        v-if="$store.getters.isUserLoggedIn"
+      ></music-services>
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -49,18 +59,28 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-@color-white: #ECEBF3;
+@color-white: #ecebf3;
+@color-green: #77bfa3;
 
 .primary-background {
-  background-color: #6D7275;
+  background-color: #6d7275 !important;
 }
- 
+
+.primary-background div,
+.primary-background span {
+  color: @color-white;
+}
+
 .secondary-background {
-  background-color: @color-white; 
+  background-color: @color-white !important;
+}
+
+.tertiary-background {
+  background-color: @color-green;
 }
 
 .color-white {
-  color: @color-white;
+  color: @color-white !important;
 }
 .margin-right-5 {
   margin-right: 5px;
@@ -73,5 +93,4 @@ export default Vue.extend({
 .float-left {
   float: left;
 }
-
 </style>

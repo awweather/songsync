@@ -1,20 +1,10 @@
 <template>
   <div>
-    <v-card-title class="ss-search-logo">
-      <v-img contain :src="logos[provider].icon" />
-    </v-card-title>
-    <v-card
-      max-width="500px"
-      min-width="350px"
-      class="mx-auto "
-      :loading="loading"
-    >
+    <v-card class="mx-auto" flat :loading="loading">
       <v-list dense class="ss-search-body">
         <v-list-item-group v-if="searchResults.length > 0">
           <v-list-item v-for="(result, i) in searchResults" :key="i">
-            <v-list-item-avatar color="grey">
-              <!-- <v-img :src="result.image.url" /> -->
-            </v-list-item-avatar>
+            <v-list-item-avatar color="grey"> </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>{{ result.title }}</v-list-item-title>
               <v-list-item-subtitle>{{ result.subtlte }}</v-list-item-subtitle>
@@ -62,7 +52,7 @@ export default class Search extends Vue {
 
       let results = await this.searchService.search(
         val,
-        this.filter,
+        this.filter || "artist",
         this.provider
       );
       let searchResults = this.searchResults;

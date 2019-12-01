@@ -21,16 +21,32 @@
                   >{{ tab.text }}</v-tab
                 >
               </v-tabs>
+              <v-tabs dark centered>
+                <v-tab>
+                  <v-img
+                    v-if="$store.getters.spotifyLinked"
+                    contain
+                    width="25"
+                    height="25"
+                    :src="require('../assets/Spotify_Icon_RGB_Green.png')"
+                  ></v-img
+                ></v-tab>
+                <v-tab>
+                  <v-img
+                    v-if="$store.getters.pandoraLinked"
+                    contain
+                    width="25"
+                    height="25"
+                    :src="require('../assets/Pandora_Icon.png')"
+                  ></v-img
+                ></v-tab>
+              </v-tabs>
+              <search
+                :provider="serviceProviders.spotify"
+                :searchText="searchText"
+                :searchType="searchType"
+              ></search>
             </v-card>
-          </v-col>
-        </v-row>
-        <v-row class="justify-center">
-          <v-col lg="8">
-            <search
-              :provider="serviceProviders.spotify"
-              :searchText="searchText"
-              :searchType="searchType"
-            ></search>
           </v-col>
         </v-row>
       </v-layout>
