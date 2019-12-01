@@ -1,7 +1,9 @@
 import SearchResult from "../models/SearchResult";
+import ServiceProviders from '@/enums/ServiceProviders';
 
 interface ISearchService {
-    search(searchText: string, searchType: string) : Promise<Array<SearchResult>>
+    provider: string
+    search(searchText: string, searchType: string, service: string) : Promise<Array<SearchResult>>
 }
 
 export default ISearchService;

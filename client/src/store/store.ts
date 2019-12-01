@@ -14,11 +14,15 @@ export default new Vuex.Store({
     status: "",
     spotify: {
       token: localStorage.getItem("spotify_token") || null,
-      status: localStorage.getItem("spotify_token") ? "connected" : "not_connected"
+      status: localStorage.getItem("spotify_token")
+        ? "connected"
+        : "not_connected"
     },
     pandora: {
       token: localStorage.getItem("pandora_token") || null,
-      status: localStorage.getItem("spotify_token") ? "connected" : "not_connected"
+      status: localStorage.getItem("spotify_token")
+        ? "connected"
+        : "not_connected"
     }
   },
   mutations: {

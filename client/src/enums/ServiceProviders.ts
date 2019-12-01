@@ -1,7 +1,7 @@
 enum ServiceProviders {
-    Spotify = "spotify",
-    Amazon = "amazon",
-    Pandora = "pandora"
+  Spotify = "spotify",
+  Amazon = "amazon",
+  Pandora = "pandora"
 }
 
 export default ServiceProviders;

@@ -3,7 +3,12 @@
     <v-card-title class="ss-search-logo">
       <v-img contain :src="logos[provider].icon" />
     </v-card-title>
-    <v-card max-width="500px" min-width="350px" class="mx-auto " :loading="loading">
+    <v-card
+      max-width="500px"
+      min-width="350px"
+      class="mx-auto "
+      :loading="loading"
+    >
       <v-list dense class="ss-search-body">
         <v-list-item-group v-if="searchResults.length > 0">
           <v-list-item v-for="(result, i) in searchResults" :key="i">
@@ -11,8 +16,8 @@
               <!-- <v-img :src="result.image.url" /> -->
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title>{{result.title}}</v-list-item-title>
-              <v-list-item-subtitle>{{result.subtlte}}</v-list-item-subtitle>
+              <v-list-item-title>{{ result.title }}</v-list-item-title>
+              <v-list-item-subtitle>{{ result.subtlte }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
               <v-btn icon>
@@ -30,7 +35,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import ISearchService from "../services/ISearchService";
-import SearchServiceFactory from "../services/SearchServiceFactory";
+import SearchService from "../services/SearchService";
 import SearchResult from "../models/SearchResult";
 
 @Component
@@ -42,9 +47,7 @@ export default class Search extends Vue {
   filter: string = "";
   loading: boolean = false;
   searchResults: Array<SearchResult> = [];
-  searchService: ISearchService = SearchServiceFactory.getService(
-    this.provider
-  );
+  searchService: ISearchService = new SearchService(this.provider);
 
   @Watch("searchType")
   async onSearchTypeChanged(val: string, oldVal: string) {
@@ -57,7 +60,11 @@ export default class Search extends Vue {
       this.loading = true;
       this.searchResults.length = 0;
 
-      let results = await this.searchService.search(val, this.filter);
+      let results = await this.searchService.search(
+        val,
+        this.filter,
+        this.provider
+      );
       let searchResults = this.searchResults;
       results.forEach(function(i) {
         searchResults.push(i);
