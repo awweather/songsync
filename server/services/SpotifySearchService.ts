@@ -18,7 +18,7 @@ class SpotifySearchService implements ISearchService {
   getOptions() {
     return {
       method: "GET",
-      url: baseUrl + `q=${this.searchText}&type=${this.searchType}`,
+      url: baseUrl + `q=${this.searchText}&type=${this.searchType}&market=from_token`,
       headers: {
         Authorization: `Bearer ${this.token}`
       },
@@ -33,8 +33,11 @@ class SpotifySearchService implements ISearchService {
       console.log("Service results: " + res.body);
     });
 
+    // Currenty sorting by popularity, but that will need to be adjusted for supporting different types of searches
+    console.log(response);
     return ResponseMapper.mapSpotifyResults(response)
       .to(this.searchType)
+      .sortBy("popularity")
       .value();
   }
 }

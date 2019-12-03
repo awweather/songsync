@@ -1,4 +1,5 @@
 import SearchResult from "../services/SearchResult";
+import { stringify } from 'querystring';
 
 /**
  * This class is intended to take the raw responses from external API's and map them
@@ -12,13 +13,29 @@ class ResponseMapper {
       to: function(type) {
         if (type === "artist") {
           mappedResult = results["artists"].items.map(item => {
-            return new SearchResult({ title: item.name, subtitle: item.type });
+            let imageUrl =
+              item.images && item.images[0] ? item.images[0].url : "";
+            return new SearchResult({
+              id: item.id,
+              title: item.name,
+              subtitle: item.type,
+              image: imageUrl,
+              popularity: item.popularity
+            });
           });
         }
 
         return this;
       },
-      value: function() : Array<SearchResult> {
+      sortBy: function(field) {
+        mappedResult.sort((a, b) => {
+          return parseInt(b[field], 10) - parseInt(a[field], 10);
+        });
+
+        return this;
+      },
+      value: function(): Array<SearchResult> {
+        console.log(mappedResult);
         return mappedResult;
       }
     };

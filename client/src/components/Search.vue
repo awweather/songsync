@@ -4,10 +4,10 @@
       <v-list dense class="ss-search-body">
         <v-list-item-group v-if="searchResults.length > 0">
           <v-list-item v-for="(result, i) in searchResults" :key="i">
-            <v-list-item-avatar color="grey"> </v-list-item-avatar>
+            <v-list-item-avatar><v-img :src="result.image"></v-img></v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>{{ result.title }}</v-list-item-title>
-              <v-list-item-subtitle>{{ result.subtlte }}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{ result.subtitle }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
               <v-btn icon>

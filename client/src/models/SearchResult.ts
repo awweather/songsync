@@ -1,10 +1,13 @@
 class SearchResult {
     public title: string;
-    public subTitle: string; 
-
+    public subtitle: string; 
+    public image: string;
+    
     constructor(data: any) {
         this.title = data.title;
-        this.subTitle = data.subTitle;
+        this.subtitle = data.subtitle;
+        this.image = data.image;
+
     }
 
 
