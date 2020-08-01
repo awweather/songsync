@@ -4,7 +4,7 @@ class DataProvider {
   async getClient() {
     if (process.env.NODE_ENV === "production") {
       return await mongodb.MongoClient.connect(
-        "mongodb+srv://awweather:NOuHg9S4fWNYdDbE@cluster0-eqqtu.azure.mongodb.net/test?retryWrites=true&w=majority",
+        process.env.DB_CONNECTION_STRING,
         {
           useNewUrlParser: true
         }

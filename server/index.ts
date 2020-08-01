@@ -6,6 +6,10 @@ const app = express();
 const session = require("express-session");
 const errorhandler = require("errorhandler");
 const cookieParser = require("cookie-parser");
+const dotenv = require("dotenv");
+
+dotenv.config();
+
 import Routes from "./routes/routes";
 
 app.use(cookieParser());
