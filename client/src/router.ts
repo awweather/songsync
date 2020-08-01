@@ -1,6 +1,7 @@
 import Register from "./components/Register.vue";
 import Login from "./components/Login.vue";
 import MusicServices from "./components/MusicServices.vue";
+import Landing from "./components/Landing.vue";
 import Dashboard from "./components/Dashboard.vue";
 import VueRouter from "vue-router";
 import Vue from "vue";
@@ -10,6 +11,7 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   routes: [
+    { name: "landing", path: "/", component: Landing, props: true },
     { name: "register", path: "/register", component: Register, props: true },
     { name: "login", path: "/login", component: Login, props: true },
     {

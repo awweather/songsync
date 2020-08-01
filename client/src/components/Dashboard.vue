@@ -2,6 +2,7 @@
   <div>
     <v-container>
       <v-layout text-center wrap>
+        <div class="header"></div>
         <v-row class="justify-center">
           <v-col lg="8">
             <v-card>
@@ -71,9 +72,9 @@ import AuthService from "../services/AuthService";
 @Component({
   components: {
     Search,
-    MusicServices
+    MusicServices,
   },
-  created() {}
+  created() {},
 })
 export default class Dashboard extends Vue {
   searchType: string = "artist";
@@ -84,7 +85,7 @@ export default class Dashboard extends Vue {
   spotifyAlert: boolean = false;
   serviceProviders = {
     spotify: ServiceProvidersEnum.Spotify,
-    amazon: ServiceProvidersEnum.Amazon
+    amazon: ServiceProvidersEnum.Amazon,
   };
 
   async created() {
@@ -117,24 +118,24 @@ export default class Dashboard extends Vue {
   tabs: Array<object> = [
     {
       text: "Artist",
-      click: this.onSearchTypeClicked
+      click: this.onSearchTypeClicked,
     },
     {
       text: "Track",
-      click: this.onSearchTypeClicked
+      click: this.onSearchTypeClicked,
     },
     {
       text: "Album",
-      click: this.onSearchTypeClicked
+      click: this.onSearchTypeClicked,
     },
     {
       text: "Playlist",
-      click: this.onSearchTypeClicked
+      click: this.onSearchTypeClicked,
     },
     {
       text: "Station",
-      click: this.onSearchTypeClicked
-    }
+      click: this.onSearchTypeClicked,
+    },
   ];
 
   spotifyLogoUrl: string = "../assets/Spotify_Logo_RGB_Green.png";
@@ -144,12 +145,27 @@ export default class Dashboard extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
 .ss-spotify-logo {
   width: 150px;
 }
 
 .padding-10 {
   padding: 10px;
+}
+
+.header {
+  position: relative;
+  height: 500px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background: rgb(31, 187, 199);
+  background: linear-gradient(
+    90deg,
+    rgba(31, 187, 199, 1) 0%,
+    rgba(38, 232, 247, 1) 45%,
+    rgba(31, 187, 199, 1) 100%
+  );
 }
 </style>
